@@ -1,0 +1,87 @@
+@import "reset.css";
+
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	background-color: rgb(83, 92, 104);
+	color: rgb(223, 230, 233);
+}
+
+.game-lobby {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+	width: 100%;
+	height: 40%;
+}
+
+.game-lobby h1 {
+	font-size: 3em;
+	font-weight: "bold";
+	margin: 1.5em;
+}
+
+.game-entries {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	
+	width: 100%;
+	height: 60%;
+}
+
+.game-entries .game-form {
+	
+}
+
+.in-game {
+	display: flex;
+	flex-direction: row;
+	
+	width: 100%;
+	height: 100%;
+}
+
+.in-game .side-bar {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	width: 10%;
+	height: 100%;
+	position: fixed;
+	z-index: 1;
+	
+	background-color: rgb(83, 92, 104, 0.3);
+	color: rgb(223, 230, 233, 0.3);
+}
+
+.in-game .side-bar div {
+	padding: 1em;
+	border: 1px solid rgb(223, 230, 233);
+	border-radius: 20%;
+}
+
+.in-game .game-canvas {
+	width: 100%;
+	height: 100%;
+	
+}
+
+.hidden {
+	display: none;
+}
+
+.online {
+	background-color: rgb(223, 230, 233);
+	color: rgb(83, 92, 104);
+}
+
