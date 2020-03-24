@@ -67,8 +67,42 @@
 					Player 8
 				</div>
 			</div>
-			<canvas class="game-canvas" id="gameCanvas" />
+			<div class="main">
+				<button class="start-game" id="startGameBtn">START GAME</button>
+				<div class="answer-div hidden" id="answerDiv">
+					the word
+				</div>
+				<canvas class="game-canvas" id="gameCanvas"></canvas>
+				<div class="draw-controls" id="drawControls">
+					<div class="color-Btns" id="colorBtns">
+						<button class="color-Btn active" style="background-color: rgb(99, 110, 114)"></button>
+						<button class="color-Btn" style="background-color: rgba(252, 92, 101,1.0)"></button>
+						<button class="color-Btn" style="background-color: rgba(253, 150, 68,1.0)"></button>
+						<button class="color-Btn" style="background-color: rgba(254, 211, 48,1.0)"></button>
+						<button class="color-Btn" style="background-color: rgba(38, 222, 129,1.0)"></button>
+						<button class="color-Btn" style="background-color: rgba(75, 123, 236,1.0)"></button>
+						<button class="color-Btn" style="background-color: rgba(165, 94, 234,1.0)"></button>
+						<button class="color-Btn" style="background-color: rgba(255, 255, 255,1.0)"></button>
+						<input 
+							   type="range" 
+							   min="1"
+							   max="20"
+							   value="2.5"
+							   step="0.1"
+							   id="widthInput"
+						/>
+					</div>
+					<button class="draw-control" id="drawMode">
+						DRAW
+					</button>
+					<button class="draw-control" id="drawClear">
+						CLEAR
+					</button>
+				</div>
+			</div>
 		</div>
 		<script src="gameLobby.js"></script>
+		<script src="canvas.js"></script>
+		<script src="inGame.js"></script>
 	</body>
 </html>

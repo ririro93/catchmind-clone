@@ -21,7 +21,14 @@ let db;
 
 let players;
 
+let drawer;
+
+let my_name;
+
+let first_round = true;
+
 //////////////////////////////////////////////////////////////
+
 init();
 
 function init() {
@@ -38,13 +45,13 @@ function init() {
 	db = loadDatabase();
 	
 	// socket comm
-	socket.on('new player', (serverPlayers) => {
-		players = serverPlayers;
+	socket.on('new player', async (serverPlayers) => {
+		players = await serverPlayers;
 		inGameSetup();
 	})
 	
-	socket.on('disconnected player', (serverPlayers) => {
-		players = serverPlayers;
+	socket.on('disconnected player', async (serverPlayers) => {
+		players = await serverPlayers;
 		inGameSetup();
 	})
 	
@@ -53,7 +60,7 @@ function init() {
 async function loadDatabase() {
 	const data = await fetch ('/loadDb');
 	const data_json = await data.json();
-	console.log("current entries: ", data_json);
+	// console.log("current entries: ", data_json);
 	
 	//sort the data
 	return data_json.sort((a, b) => {
@@ -71,7 +78,8 @@ function handleNameSubmit(event) {
 	event.preventDefault();
 	
 	// introduce new player
-	socket.emit('new player', nameInput.value);
+	my_name = nameInput.value;
+	socket.emit('new player', my_name);
 	
 	// enter in-game
 	gameLobby.classList.add("hidden");
@@ -132,7 +140,21 @@ function eraseAllEntries(node) {
 }
 
 function inGameSetup() {
+	// first round setting
+	if (players.length > 0 && first_round && my_name) {
+		drawer = players[0].name;
+		console.log("first drawer: ", drawer, my_name);
+		first_round = false;
+		
+		if (drawer != my_name) {
+			// if player is not the drawer
+			startGameBtn.textContent = "Waiting for Game to Start";
+			startGameBtn.classList.add("not-drawer");
+			startGameBtn.disabled = true;
+		}
+	}
 	console.log("players: ", players);
+
 	for (let i = 0; i < 8; i++) {
 		if (i < players.length) {
 			playersDiv[i].textContent = players[i].name;

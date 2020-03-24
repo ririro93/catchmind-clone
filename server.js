@@ -24,7 +24,6 @@ app.use(express.json());
 //////////////////////////////////////////// Global vars
 let players = []
 let playerNum = 1;
-let currentSocketId;
 
 
 //////////////////////////////////////////// requests
@@ -49,7 +48,13 @@ app.post('/api/entry', async (req, res) => {
 ///////////////////////////////////////////// socket connection
 io.on('connection', (socket) => {
 	console.log(`${socket.id} has connected`);
-	currentSocketId = socket.id;
+	
+	// new player joins
+	socket.on('new player', (playerName) => {
+		players.push({ name: playerName, num: playerNum++, id: socket.id });
+		io.emit('new player', players);
+		console.log("online players: ", players);
+	});
 	
 	// disconnection
 	socket.on('disconnect', () => {
@@ -59,12 +64,12 @@ io.on('connection', (socket) => {
 		console.log("online players: ", players);
 	});
 	
-	// new player joins
-	socket.on('new player', (playerName) => {
-		players.push({ name: playerName, num: playerNum++, id: socket.id });
-		io.emit('new player', players);
-		console.log("online players: ", players);
-	});
+	// start game
+	socket.on('start game', (random_entries) => {
+		console.log(`game started by ${socket.id}`);
+		console.log('the answers are', random_entries);
+		io.emit('game started', random_entries);
+	})
 })
 
 ////////////////////////////////////////////// database

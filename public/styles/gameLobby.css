@@ -43,9 +43,6 @@ body {
 }
 
 .in-game {
-	display: flex;
-	flex-direction: row;
-	
 	width: 100%;
 	height: 100%;
 }
@@ -58,23 +55,128 @@ body {
 	width: 10%;
 	height: 100%;
 	position: fixed;
-	z-index: 1;
 	
-	background-color: rgb(83, 92, 104, 0.3);
-	color: rgb(223, 230, 233, 0.3);
+	
+	background-color: rgba(69, 170, 242,1.0);
+	box-shadow: 0 1em 3em rgba(69, 170, 242,1.0);
+	color: rgb(255, 255, 255, 0.3);
 }
 
 .in-game .side-bar div {
-	padding: 1em;
-	border: 1px solid rgb(223, 230, 233);
-	border-radius: 20%;
+	width: 100%;
+	height: 12.5%;
+	
+	border-top: 1px solid rgb(255, 255, 255, 0.3);
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.in-game .game-canvas {
-	width: 100%;
+.in-game .main {
+	margin-left: 10%;
 	height: 100%;
 	
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
 }
+
+.in-game .main .start-game {
+	width: 90%;
+	height: 5%;
+	
+	cursor: pointer;
+}
+.in-game .main .start-game.not-drawer:disabled {
+	cursor: not-allowed;
+	border: 0;
+	padding; 0;
+}
+
+.in-game .main .answer-div {
+	width: 90%;
+	height: 5%;
+	
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0 1em 3em rgb(0, 0, 0);
+	
+	color: rgb(0, 0, 0);
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.in-game .main .answer-div.hidden {
+	display: none;
+}
+
+.in-game .main .game-canvas {
+	width: 90%;
+	height: 75%;
+	
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0 1em 3em rgb(0, 0, 0);
+	
+}
+
+.in-game .main .draw-controls {
+	width: 90%;
+	height: 10%;
+
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0 1em 3em rgb(0, 0, 0);
+	
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.in-game .main .draw-controls .color-Btns {
+	width: 90%;
+	height: 8%;
+	
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0 1em 3em rgb(0, 0, 0);
+	
+}
+
+.in-game .main .draw-controls .color-Btns button {
+	width: 3.5em;
+	height: 3.5em;
+	border-radius: 40%;
+	border-color: rgb(83, 92, 104);
+	
+	cursor: pointer;
+	
+	transition: 0.3s ease-in-out;
+}
+
+.in-game .main .draw-controls .color-Btns button:hover {
+	transform: scale(1.3, 1.3); 
+}
+
+.in-game .main .draw-controls .color-Btns input[type=range]::-moz-range-track {
+	background-color: rgb(83, 92, 104);
+}
+
+.in-game .main .draw-controls .draw-control {
+	width: 4.5em;
+	text-align: center;
+}
+
+.active {
+	transform: scale(1.5, 1.5);
+}
+
 
 .hidden {
 	display: none;
