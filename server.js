@@ -69,6 +69,27 @@ io.on('connection', (socket) => {
 		console.log(`game started by ${socket.id}`);
 		console.log('the answers are', random_entries);
 		io.emit('game started', random_entries);
+	});
+	
+	// send drawing info
+	socket.on('drawing', (drawing_info) => {
+		console.log(drawing_info);
+		io.emit('receive drawing', drawing_info);
+	});
+	
+	// send filling info
+	socket.on('filling', (filling_info) => {
+		io.emit('receive filling', filling_info);
+	});
+	
+	// send clear info
+	socket.on('clear', (clear_info) => {
+		io.emit('receive clear', clear_info);
+	})
+	
+	// when non-drawer answers right
+	socket.on('correct answer', (name) => {
+		io.emit('next question', name);
 	})
 })
 

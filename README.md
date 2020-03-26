@@ -7,13 +7,17 @@ It's a game where one player draws something about a given word which then the o
     - some design
 
 2. In Game
-    - ~~drawing feature with various colors~~
     - ~~show random words from database~~
     - point system
     - timer
     - ~~first player starts the game with START button~~
+	- ~~add code to move onto next round~~
+	- chat
+
+3. Canvas
+    - ~~drawing feature with various colors~~
     - ~~fill option fills with opacity~~
-    - show non-drawers what the drawer draws real-time
+    - ~~show non-drawers what the drawer draws real-time~~
  
-3. Bugs
+4. Fix Bugs
     - all player names disappear when one logs out 

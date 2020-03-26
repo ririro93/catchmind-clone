@@ -72,7 +72,9 @@
 				<div class="answer-div hidden" id="answerDiv">
 					the word
 				</div>
+				
 				<canvas class="game-canvas" id="gameCanvas"></canvas>
+				
 				<div class="draw-controls" id="drawControls">
 					<div class="color-Btns" id="colorBtns">
 						<button class="color-Btn active" style="background-color: rgb(99, 110, 114)"></button>
@@ -99,6 +101,19 @@
 						CLEAR
 					</button>
 				</div>
+				
+				<form class="answer-submit hidden" id="answerSubmit">
+					<input
+						    placeholder="what is the answer?"
+						    id="answerSubmitInput" 
+						    autocomplete="off"
+					/>
+					<button
+							id="answerSubmitBtn"
+					>
+						SUBMIT
+					</button>
+				</form>
 			</div>
 		</div>
 		<script src="gameLobby.js"></script>

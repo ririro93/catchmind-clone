@@ -38,10 +38,6 @@ body {
 	height: 60%;
 }
 
-.game-entries .game-form {
-	
-}
-
 .in-game {
 	width: 100%;
 	height: 100%;
@@ -135,6 +131,10 @@ body {
 	align-items: center;
 }
 
+.in-game .main .draw-controls.hidden {
+	display: none;
+}
+
 .in-game .main .draw-controls .color-Btns {
 	width: 90%;
 	height: 8%;
@@ -171,6 +171,37 @@ body {
 .in-game .main .draw-controls .draw-control {
 	width: 4.5em;
 	text-align: center;
+}
+
+.in-game .main .answer-submit {
+	width: 90%;
+	height: 10%;
+	
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.in-game .main .answer-submit.hidden {
+	display: none;
+}
+
+.in-game .main .answer-submit input {
+	width: 80%;
+	height: 100%;
+	text-align: center;
+	
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.in-game .main .answer-submit button {
+	margin-left: 5%;
+	
+	width: 15%;
+	height: 100%;
 }
 
 .active {

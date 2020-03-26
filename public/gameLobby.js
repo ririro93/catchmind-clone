@@ -17,6 +17,9 @@ const searchedEntryList = document.getElementById("searchedEntryList");
 
 const playersDiv = document.getElementsByClassName("player");
 
+const drawControls = document.getElementById("drawControls");
+const answerSubmit = document.getElementById("answerSubmit");
+
 let db;
 
 let players;
@@ -151,6 +154,8 @@ function inGameSetup() {
 			startGameBtn.textContent = "Waiting for Game to Start";
 			startGameBtn.classList.add("not-drawer");
 			startGameBtn.disabled = true;
+			answerSubmit.classList.remove("hidden");
+			drawControls.classList.add("hidden");
 		}
 	}
 	console.log("players: ", players);
