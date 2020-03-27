@@ -13,6 +13,7 @@ It's a game where one player draws something about a given word which then the o
     - ~~first player starts the game with START button~~
 	- ~~add code to move onto next round~~
 	- chat
+	- popup to show answers players submit
 
 3. Canvas
     - ~~drawing feature with various colors~~
@@ -21,3 +22,4 @@ It's a game where one player draws something about a given word which then the o
  
 4. Fix Bugs
     - all player names disappear when one logs out 
+	- 8th player's submitted answer is covered by a color button

@@ -58,7 +58,7 @@ body {
 	color: rgb(255, 255, 255, 0.3);
 }
 
-.in-game .side-bar div {
+.in-game .side-bar .player {
 	width: 100%;
 	height: 12.5%;
 	
@@ -67,6 +67,47 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.in-game .side-bar .player.drawer {
+	color: rgb(225, 112, 85);
+	border: 1px solid rgb(225, 112, 85);
+}
+
+.in-game .popup-container {
+	position: absolute;
+	left: 12%;
+	
+	height: 100%;
+	
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	
+}
+
+.in-game .popup-container .popup-text {
+	background-color: rgba(149, 165, 166, 0.8);
+	padding: 0.6em;
+	color: rgba(241, 196, 15, 0.8);
+	font-size: 2em;
+	font-weight: bold;
+	-webkit-touch-callout: none; 
+	-webkit-user-select: none; 
+	-khtml-user-select: none; 
+	-moz-user-select: none; 
+	-ms-user-select: none; 
+	user-select: none; 
+}
+
+.in-game .popup-container .popup-text.hiding{
+	visibility: hidden;
+	width: 0.1em;
+}
+
+.in-game .popup-container .popup-text.correct{
+	color: rgba(231, 76, 60, 1.0);
 }
 
 .in-game .main {
@@ -154,6 +195,8 @@ body {
 	height: 3.5em;
 	border-radius: 40%;
 	border-color: rgb(83, 92, 104);
+	
+	z-index: 10;
 	
 	cursor: pointer;
 	

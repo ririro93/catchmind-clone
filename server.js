@@ -34,6 +34,13 @@ app.get('/loadDb', (req, res) => {
 	});
 })
 
+app.get('/removeDb/:removeEntry', (req, res) => {
+	db.remove({ entry: req.params.removeEntry }, (error, numRemoved) => {
+		console.log("numRemoved: ", numRemoved);
+		res.end();
+	})
+})
+
 
 // receive new entry -> add to db, sort db -> send back success message
 app.post('/api/entry', async (req, res) => {
@@ -90,6 +97,11 @@ io.on('connection', (socket) => {
 	// when non-drawer answers right
 	socket.on('correct answer', (name) => {
 		io.emit('next question', name);
+	})
+	
+	socket.on('answer submit', (answer_data) => {
+	   console.log(answer_data);
+		io.emit('submitted answer', answer_data);
 	})
 })
 

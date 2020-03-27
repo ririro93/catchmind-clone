@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="styles/gameLobby.css" />
-		<title> Catchmind Game Lobby </title>
+		<title> Catchmind Game Lobby</title>
 		<script src="/socket.io/socket.io.js"></script>
 	</head>
 	<body>
@@ -42,7 +42,7 @@
 		</div>
 		<div class="in-game hidden" id="inGame">
 			<div class="side-bar" id="sideBar">
-				<div class="player">
+				<div class="player drawer">
 					Player 1
 				</div>  
 				<div class="player">
@@ -66,6 +66,16 @@
 				<div class="player">
 					Player 8
 				</div>
+			</div>
+			<div class="popup-container" id="popupContainer">
+				<span class="popup-text hiding" id="popupText">popup</span>
+				<span class="popup-text hiding" id="popupText">popup</span>
+				<span class="popup-text hiding" id="popupText">popup</span>
+				<span class="popup-text hiding" id="popupText">popup</span>
+				<span class="popup-text hiding" id="popupText">popup</span>
+				<span class="popup-text hiding" id="popupText">popup</span>
+				<span class="popup-text hiding" id="popupText">popup</span>
+				<span class="popup-text hiding" id="popupText">popup</span>
 			</div>
 			<div class="main">
 				<button class="start-game" id="startGameBtn">START GAME</button>

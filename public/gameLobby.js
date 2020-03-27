@@ -118,20 +118,33 @@ async function handleSearchInput() {
 	const database = await db;
 	console.log("database: ", database);
 	eraseAllEntries(searchedEntryList);
+	entryBtn.textContent = "Add to Database";
 	database.forEach(data => {
 		if (keyWord && data.entry.toLowerCase().includes(keyWord.toLowerCase())) {
-			entryBtn.textContent = "Add to Database";
 			const entryItem = document.createElement('div');
 			entryItem.textContent = data.entry;
 			const entryEraseBtn = document.createElement('button');
 			entryEraseBtn.textContent = "X";
+			entryEraseBtn.addEventListener('click', handleEntryRemoveClick);
 			entryItem.appendChild(entryEraseBtn);
 			searchedEntryList.appendChild(entryItem);
-		}
-		if (keyWord.toLowerCase() === data.entry.toLowerCase()) {
-			entryBtn.textContent = "Already In Database";
-		}
+			
+			// if keyword is in database
+			if (keyWord.toLowerCase() == data.entry.toLowerCase()) {
+				entryBtn.textContent = "Already In Database";
+			} else {
+				entryBtn.textContent = "Add to Database";
+			}
+		} 
 	});
+}
+
+async function handleEntryRemoveClick(event) {
+	const removeEntry = event.target.parentNode.firstChild.data;
+	const removedEntry = await fetch(`/removeDb/${removeEntry}`);
+	db = loadDatabase();
+	entryInput.value = "";
+	handleSearchInput();
 }
 
 function eraseAllEntries(node) {

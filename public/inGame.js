@@ -4,6 +4,9 @@ const startGameBtn = document.getElementById("startGameBtn");
 const answerSubmitInput = document.getElementById("answerSubmitInput");
 const answerSubmitBtn = document.getElementById("answerSubmitBtn");
 
+const popupContainer = document.getElementById("popupContainer");
+const popupTexts = [...document.getElementsByClassName("popup-text")];
+
 let answer_num = -1;
 
 let received_entries;
@@ -25,31 +28,58 @@ function init() {
 	// when non-drawer answers right
 	socket.on('next question', (name) => {
 		console.log(name, " got the answer right");
-		setTimeout(showNextAnswer, 5000);
+		drawer = name;
+		setTimeout(showNextAnswer, 3000);
 	})
+	
+	// when user submits answer
+	socket.on('submitted answer', answer_data => {
+		for (let i = 0; i < players.length; i++) {
+			if (players[i].name == answer_data.name) {
+				popupTexts[i].classList.remove("hiding");
+				popupTexts[i].textContent = answer_data.answer;
+				
+				// if submitted answer is correct
+				if (answer_data.correct) {
+					popupTexts[i].classList.add("correct");
+					setTimeout(() => {
+						popupTexts[i].classList.remove("correct");
+						for (let j = 0; j < players.length; j++) {
+							popupTexts[j].classList.add("hiding");
+						}
+					}, 3000);
+				}
+			}
+
+		}
+	});
 }
 
 async function handleStartClick(event) {
 	const entries_list = await loadRandomKey();
-	random_entries = randomAnswers(entries_list, 10);
+	
+	received_entries = randomAnswers(entries_list, 10);
 	answerDiv.classList.remove("hidden");
 	startGameBtn.classList.add("hidden");
-	socket.emit('start game', random_entries);
+	socket.emit('start game', received_entries);
 }
 
 function handleSubmitClick(event) {
-	const given_answer = answerSubmitInput.value;
-	console.log(event);
-	
 	event.preventDefault();
-	if (given_answer == received_entries[answer_num]) {
+	const given_answer = answerSubmitInput.value;
+	const correctAns = given_answer.toLowerCase() == received_entries[answer_num].toLowerCase();
+	const data = { name: my_name, answer: given_answer, correct: correctAns };
+	
+	
+	// socket comm with server
+	socket.emit('answer submit', data);
+	
+	// if my answer is correct
+	if (correctAns) {
 		answerSubmitInput.value = "Correct!";
 		socket.emit('correct answer', my_name);
 	} else {
-		answerSubmitInput.value = "Wrong!";
-		setTimeout(() => {
-			answerSubmitInput.value = "";
-		}, 2000);
+		answerSubmitInput.value = "";
 	}
 }
 
@@ -74,10 +104,32 @@ function randomAnswers(entries_list, num_questions) {
 }
 
 function showNextAnswer() {
+	console.log("show next answer", my_name, drawer);
 	answer_num += 1;
+	
+	// show drawer in red
+	for (let i = 0; i < 8; i++) {
+		if (i < players.length) {
+			playersDiv[i].textContent = players[i].name;
+			playersDiv[i].classList.add("online");
+			if (playersDiv[i].textContent == drawer) {
+				playersDiv[i].classList.add("drawer");
+			} else {
+				playersDiv[i].classList.remove("drawer");
+			}
+		} else {
+			playersDiv[i].textContent = `Player ${i+1}`;
+			playersDiv[i].classList.remove("online");
+		}
+	}
+	
 	if (my_name == drawer) {	
-		answerDiv.textContent = random_entries[answer_num];
+		answerDiv.textContent = received_entries[answer_num];
+		answerSubmit.classList.add("hidden");
+		drawControls.classList.remove("hidden");
 	} else {
+		answerSubmit.classList.remove("hidden");
+		drawControls.classList.add("hidden");
 		answerDiv.classList.remove("hidden");
 		startGameBtn.classList.add("hidden");
 		answerDiv.textContent = "O".repeat(received_entries[answer_num].length);

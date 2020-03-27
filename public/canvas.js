@@ -96,7 +96,7 @@ function init() {
 			ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 			ctx.fillStyle = "rgb(255, 255, 255, 0.4)"
 			ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
-		}, 5000);
+		}, 3000);
 	});
 }
 
