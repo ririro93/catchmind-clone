@@ -11,7 +11,7 @@ const ctx = gameCanvas.getContext("2d");
 gameCanvas.width = document.body.clientWidth * 0.9 * 0.9;
 gameCanvas.height = document.body.clientHeight * 0.75;
 
-console.log("width, height: ", gameCanvas.width, gameCanvas.height);
+// console.log("width, height: ", gameCanvas.width, gameCanvas.height);
 
 let currColor = "rgb(99, 110, 114)";
 let currFillColor = "rgb(99, 110, 114)";

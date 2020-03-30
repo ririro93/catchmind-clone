@@ -1,0 +1,27 @@
+.timer-div {
+	width: 90%;
+	height: 5%;
+}
+
+.timer-div .timer-container {
+	width: 100%;
+	height: 100%;
+}
+
+.timer-div .timer-container .bar-timer-background {
+	fill: rgba(99, 110, 114,1.0);
+}
+
+.timer-div .timer-container .bar-timer {
+	z-index: 1;
+	fill: rgba(76, 209, 55,1.0);
+	transition: 1s ease-in;
+}
+
+.timer-div .timer-container .bar-timer.warning {
+	fill: rgba(251, 197, 49,1.0);
+}
+
+.timer-div .timer-container .bar-timer.danger {
+	fill: rgba(234, 32, 39,1.0);
+}

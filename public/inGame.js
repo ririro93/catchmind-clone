@@ -7,9 +7,25 @@ const answerSubmitBtn = document.getElementById("answerSubmitBtn");
 const popupContainer = document.getElementById("popupContainer");
 const popupTexts = [...document.getElementsByClassName("popup-text")];
 
+const timerContainer = document.getElementById("timerContainer");
+const barTimerBackground = document.getElementById("barTimerBackground");
+const barTimer = document.getElementById("barTimer");
+
+
 let answer_num = -1;
 
 let received_entries;
+
+// timer
+const width = document.body.clientWidth * 0.9;
+const height = document.body.clientHeight * 0.05;
+
+const ROUND_TIME = 60;
+
+let calculatedWidth = 100;
+
+let countdownInterval;
+
 
 //////////////////////////////////////////////////////////
 init();
@@ -17,6 +33,12 @@ init();
 function init() {
 	startGameBtn.addEventListener('click', handleStartClick);
 	answerSubmitBtn.addEventListener('click', handleSubmitClick);
+	
+	// timer setup
+	barTimerBackground.setAttribute("width", `${width}`);
+	barTimerBackground.setAttribute("height", `${height}`);
+	barTimer.setAttribute("width", `${width}`);
+	barTimer.setAttribute("height", `${height}`);
 	
 	// socket comm
 	socket.on('game started', async (random_entries) => {
@@ -62,6 +84,8 @@ async function handleStartClick(event) {
 	answerDiv.classList.remove("hidden");
 	startGameBtn.classList.add("hidden");
 	socket.emit('start game', received_entries);
+	
+
 }
 
 function handleSubmitClick(event) {
@@ -104,7 +128,7 @@ function randomAnswers(entries_list, num_questions) {
 }
 
 function showNextAnswer() {
-	console.log("show next answer", my_name, drawer);
+	console.log("show next answer, drawer: ", drawer);
 	answer_num += 1;
 	
 	// show drawer in red
@@ -135,5 +159,26 @@ function showNextAnswer() {
 		answerDiv.textContent = "O".repeat(received_entries[answer_num].length);
 		answerSubmitInput.value = "";
 		answerSubmitInput.placeholder = "what is the answer?";
+	}
+	
+	// start timer
+	countdownInterval = setInterval(countdown, 1000);
+}
+
+function countdown() {
+	console.log(calculatedWidth, barTimer.style.width);
+	calculatedWidth -= 100 / ROUND_TIME;
+	barTimer.setAttribute("width", `${calculatedWidth}%`);
+	
+	if (calculatedWidth < 50) {
+		barTimer.classList.add("warning");
+	}
+	
+	if (calculatedWidth < 25) {
+		barTimer.classList.remove("warning");
+		barTimer.classList.add("danger");
+	}
+	if (calculatedWidth < 0) {
+		clearInterval(countdownInterval);
 	}
 }

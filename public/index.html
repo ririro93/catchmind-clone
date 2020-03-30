@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="styles/gameLobby.css" />
+		<link rel="stylesheet" href="styles/timer.css" />
 		<title> Catchmind Game Lobby</title>
 		<script src="/socket.io/socket.io.js"></script>
 	</head>
@@ -77,10 +78,28 @@
 				<span class="popup-text hiding" id="popupText">popup</span>
 				<span class="popup-text hiding" id="popupText">popup</span>
 			</div>
+			
 			<div class="main">
-				<button class="start-game" id="startGameBtn">START GAME</button>
+				
+				<button class="start-game" id="startGameBtn">
+					START GAME
+				</button>
+				
 				<div class="answer-div hidden" id="answerDiv">
 					the word
+				</div>
+				
+				<div class="timer-div">
+					<svg class="timer-container" id="timerContainer">
+						<rect 
+							  class="bar-timer-background"
+							  id="barTimerBackground"
+						/>
+						<rect 
+							  class="bar-timer"
+							  id="barTimer"
+						/>
+					</svg>
 				</div>
 				
 				<canvas class="game-canvas" id="gameCanvas"></canvas>

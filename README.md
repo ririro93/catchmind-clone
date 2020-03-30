@@ -8,12 +8,14 @@ It's a game where one player draws something about a given word which then the o
 
 2. In Game
     - ~~show random words from database~~
-    - point system
-    - timer
+    - add point system
+    - ~~add timer~~
     - ~~first player starts the game with START button~~
 	- ~~add code to move onto next round~~
-	- chat
 	- popup to show answers players submit
+	- add arrow to popups
+	- add count down to game start
+	- chat system
 
 3. Canvas
     - ~~drawing feature with various colors~~
@@ -23,3 +25,6 @@ It's a game where one player draws something about a given word which then the o
 4. Fix Bugs
     - all player names disappear when one logs out 
 	- 8th player's submitted answer is covered by a color button
+
+## #References
+timer: https://css-tricks.com/how-to-create-an-animated-countdown-timer-with-html-css-and-javascript/
