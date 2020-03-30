@@ -39,7 +39,6 @@ function init() {
 	widthInput.value = 2.5;
 	
 	// draw on canvas
-	console.log(gameCanvas);
 	gameCanvas.addEventListener("mousemove", onMouseMove);
 	gameCanvas.addEventListener("mouseleave", stopPainting);
 	gameCanvas.addEventListener("mousedown", startPainting);

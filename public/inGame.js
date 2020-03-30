@@ -11,6 +11,7 @@ const timerContainer = document.getElementById("timerContainer");
 const barTimerBackground = document.getElementById("barTimerBackground");
 const barTimer = document.getElementById("barTimer");
 
+const NUM_ENTRIES = 3;
 
 let answer_num = -1;
 
@@ -25,6 +26,9 @@ const ROUND_TIME = 60;
 let calculatedWidth = 100;
 
 let countdownInterval;
+
+// score system
+let myScoreThisRound = 0;
 
 
 //////////////////////////////////////////////////////////
@@ -48,10 +52,18 @@ function init() {
 	});
 	
 	// when non-drawer answers right
-	socket.on('next question', (name) => {
-		console.log(name, " got the answer right");
-		drawer = name;
-		setTimeout(showNextAnswer, 3000);
+	socket.on('next question', (data) => {
+		console.log(data[data.length-1], " got the answer right");
+		players = data.slice(0, data.length-1);
+		drawer = data[data.length-1];
+		clearInterval(countdownInterval);
+		if (answer_num < received_entries.length - 1) {
+			setTimeout(showNextAnswer, 3000);
+		} else {
+			socket.emit('end game', players);
+			console.log('game ended');
+		}
+		console.log("players: ", players);
 	})
 	
 	// when user submits answer
@@ -75,24 +87,39 @@ function init() {
 
 		}
 	});
+	
+	// when game ends
+	socket.on('game ended', data => {
+		let winner;
+		let highScore = 0;
+		
+		console.log('game ended: ', data);
+		
+		for (let i = 0; i < players.length; i++) {
+			if (players[i].score > highScore) {
+				highScore = players[i].score;
+				winner = players[i].name
+			}
+		}
+		console.log("the winner is ", winner, " with a score of ", highScore);
+		answerDiv.textContent = `${winner} wins with ${highScore} points!`;
+	})
 }
 
 async function handleStartClick(event) {
 	const entries_list = await loadRandomKey();
 	
-	received_entries = randomAnswers(entries_list, 10);
+	received_entries = randomAnswers(entries_list, NUM_ENTRIES);
 	answerDiv.classList.remove("hidden");
 	startGameBtn.classList.add("hidden");
 	socket.emit('start game', received_entries);
-	
-
 }
 
 function handleSubmitClick(event) {
 	event.preventDefault();
 	const given_answer = answerSubmitInput.value;
 	const correctAns = given_answer.toLowerCase() == received_entries[answer_num].toLowerCase();
-	const data = { name: my_name, answer: given_answer, correct: correctAns };
+	const data = { name: my_name, drawer: drawer, answer: given_answer, correct: correctAns, score: Math.floor(calculatedWidth) };
 	
 	
 	// socket comm with server
@@ -101,7 +128,7 @@ function handleSubmitClick(event) {
 	// if my answer is correct
 	if (correctAns) {
 		answerSubmitInput.value = "Correct!";
-		socket.emit('correct answer', my_name);
+		socket.emit('correct answer', data);
 	} else {
 		answerSubmitInput.value = "";
 	}
@@ -162,11 +189,11 @@ function showNextAnswer() {
 	}
 	
 	// start timer
+	calculatedWidth = 100;
 	countdownInterval = setInterval(countdown, 1000);
 }
 
 function countdown() {
-	console.log(calculatedWidth, barTimer.style.width);
 	calculatedWidth -= 100 / ROUND_TIME;
 	barTimer.setAttribute("width", `${calculatedWidth}%`);
 	
@@ -181,4 +208,8 @@ function countdown() {
 	if (calculatedWidth < 0) {
 		clearInterval(countdownInterval);
 	}
+}
+
+function showScores() {
+	console.log("the final scores are: ", players);
 }

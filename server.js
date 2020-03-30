@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
 	
 	// new player joins
 	socket.on('new player', (playerName) => {
-		players.push({ name: playerName, num: playerNum++, id: socket.id });
+		players.push({ name: playerName, num: playerNum++, id: socket.id, score: 0 });
 		io.emit('new player', players);
 		console.log("online players: ", players);
 	});
@@ -80,7 +80,7 @@ io.on('connection', (socket) => {
 	
 	// send drawing info
 	socket.on('drawing', (drawing_info) => {
-		console.log(drawing_info);
+		// console.log(drawing_info);
 		io.emit('receive drawing', drawing_info);
 	});
 	
@@ -95,13 +95,29 @@ io.on('connection', (socket) => {
 	})
 	
 	// when non-drawer answers right
-	socket.on('correct answer', (name) => {
-		io.emit('next question', name);
+	socket.on('correct answer', (data) => {
+		
+		// give score to drawer and correct answerer
+		players.filter(player => {
+			if (player.name == data.name) {
+				player.score += data.score;
+			}
+			if (player.name == data.drawer) {
+				player.score += Math.floor(data.score / 5);
+			}
+		});
+		const sendData = [...players, data.name]
+		io.emit('next question', sendData);
 	})
 	
 	socket.on('answer submit', (answer_data) => {
 	   console.log(answer_data);
 		io.emit('submitted answer', answer_data);
+	})
+	
+	socket.on('end game', (data) => {
+		console.log("game ended: ", data);
+		io.emit('game ended', data);
 	})
 })
 
