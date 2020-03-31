@@ -104,6 +104,11 @@
 				
 				<canvas class="game-canvas" id="gameCanvas"></canvas>
 				
+				<div class="score-board hidden" id="scoreBoard">
+					<table class="score-board-table" id="scoreBoardTable">
+					</table>
+				</div>
+				
 				<div class="draw-controls" id="drawControls">
 					<div class="color-Btns" id="colorBtns">
 						<button class="color-Btn active" style="background-color: rgb(99, 110, 114)"></button>
@@ -143,6 +148,10 @@
 						SUBMIT
 					</button>
 				</form>
+				
+				<button class="restart-button hidden" id="restartBtn">
+					RESTART GAME
+				</button>
 			</div>
 		</div>
 		<script src="gameLobby.js"></script>

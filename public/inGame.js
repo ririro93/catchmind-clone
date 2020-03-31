@@ -11,9 +11,14 @@ const timerContainer = document.getElementById("timerContainer");
 const barTimerBackground = document.getElementById("barTimerBackground");
 const barTimer = document.getElementById("barTimer");
 
-const NUM_ENTRIES = 3;
+const scoreBoard = document.getElementById("scoreBoard");
+const scoreBoardTable = document.getElementById("scoreBoardTable");
 
-let answer_num = -1;
+const restartBtn = document.getElementById("restartBtn");
+
+const NUM_ENTRIES = 2;
+
+let answer_num;
 
 let received_entries;
 
@@ -37,6 +42,7 @@ init();
 function init() {
 	startGameBtn.addEventListener('click', handleStartClick);
 	answerSubmitBtn.addEventListener('click', handleSubmitClick);
+	restartBtn.addEventListener('click', handleRestartClick);
 	
 	// timer setup
 	barTimerBackground.setAttribute("width", `${width}`);
@@ -46,9 +52,21 @@ function init() {
 	
 	// socket comm
 	socket.on('game started', async (random_entries) => {
+		answer_num = -1;
+		myScoreThisRound = 0;
 		received_entries = await random_entries;
 		console.log("received_entries: ", received_entries);
-		showNextAnswer();
+		
+		// reset player scores
+		for (let i = 0; i < players.length; i++) {
+			players[i].score = 0;
+			console.log(`${players[i].name} has ${players[i].score} points`);
+		}
+		
+		// remove former scores from scoreboard
+		eraseAllEntries(scoreBoardTable);
+		
+		showNextAnswer();		
 	});
 	
 	// when non-drawer answers right
@@ -62,8 +80,8 @@ function init() {
 		} else {
 			socket.emit('end game', players);
 			console.log('game ended');
+			showScores();
 		}
-		console.log("players: ", players);
 	})
 	
 	// when user submits answer
@@ -88,12 +106,10 @@ function init() {
 		}
 	});
 	
-	// when game ends
+	// when game ends (this gets executed too many times)
 	socket.on('game ended', data => {
 		let winner;
 		let highScore = 0;
-		
-		console.log('game ended: ', data);
 		
 		for (let i = 0; i < players.length; i++) {
 			if (players[i].score > highScore) {
@@ -101,8 +117,14 @@ function init() {
 				winner = players[i].name
 			}
 		}
-		console.log("the winner is ", winner, " with a score of ", highScore);
-		answerDiv.textContent = `${winner} wins with ${highScore} points!`;
+		answerDiv.textContent = `${winner} WINS!`;
+		
+		// reset timer
+		barTimer.setAttribute("width", `100%`);
+		
+		// hide canvas and show scoreboard
+		gameCanvas.classList.add("hidden");
+		scoreBoard.classList.remove("hidden");
 	})
 }
 
@@ -141,7 +163,6 @@ async function loadRandomKey() {
 	entries_json.forEach(entry => {
 			entries_list.push(entry.entry);
 	});
-	// console.log("in-game: ", entries_list);
 	return entries_list
 }
 
@@ -155,8 +176,9 @@ function randomAnswers(entries_list, num_questions) {
 }
 
 function showNextAnswer() {
-	console.log("show next answer, drawer: ", drawer);
 	answer_num += 1;
+	console.log("drawer: ", drawer, answer_num);
+	console.log("players: ", players);
 	
 	// show drawer in red
 	for (let i = 0; i < 8; i++) {
@@ -173,6 +195,11 @@ function showNextAnswer() {
 			playersDiv[i].classList.remove("online");
 		}
 	}
+	
+	// show inputs and hide restartBtn
+	restartBtn.classList.add("hidden");
+	scoreBoard.classList.add("hidden");
+	gameCanvas.classList.remove("hidden");
 	
 	if (my_name == drawer) {	
 		answerDiv.textContent = received_entries[answer_num];
@@ -207,9 +234,56 @@ function countdown() {
 	}
 	if (calculatedWidth < 0) {
 		clearInterval(countdownInterval);
+		drawerTimeOver();
 	}
 }
 
 function showScores() {
 	console.log("the final scores are: ", players);
+	players.sort((a, b) => {
+		if (a.score < b.score) {
+			return 1
+		} else {
+			return -1
+		}
+	});
+	scoreBoardTable.innerHTML = `
+		<tr>
+			<th>Rank</th>
+			<th>name</th>
+			<th>score</th>
+		</tr>
+	`;
+	
+	for (let i = 0; i < players.length; i++) {
+		const finalRow = document.createElement('tr');
+		const finalRank = document.createElement('td');
+		const finalName = document.createElement('td');
+		const finalScore = document.createElement('td');
+		
+		finalRank.textContent = i + 1;
+		finalName.textContent = players[i].name;
+		finalScore.textContent = players[i].score;
+		
+		finalRow.appendChild(finalRank);
+		finalRow.appendChild(finalName);
+		finalRow.appendChild(finalScore);
+		
+		scoreBoardTable.appendChild(finalRow);
+	}
+	
+	// show restart button, hide answerSubmitInput and drawControls
+	restartBtn.classList.remove("hidden");
+	answerSubmit.classList.add("hidden");
+	drawControls.classList.add("hidden");
 }
+
+function drawerTimeOver() {
+	console.log("time over next drawer up");
+}
+
+function handleRestartClick(event) {
+	handleStartClick();
+}
+
+

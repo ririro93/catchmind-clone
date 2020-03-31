@@ -159,7 +159,7 @@ function inGameSetup() {
 	// first round setting
 	if (players.length > 0 && first_round && my_name) {
 		drawer = players[0].name;
-		console.log("first drawer: ", drawer, my_name);
+		console.log("me: ", my_name, ", first drawer: ", drawer);
 		first_round = false;
 		
 		if (drawer != my_name) {

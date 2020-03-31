@@ -76,6 +76,9 @@ io.on('connection', (socket) => {
 		console.log(`game started by ${socket.id}`);
 		console.log('the answers are', random_entries);
 		io.emit('game started', random_entries);
+		for (let i = 0; i < players.length; i++) {
+			players[i].score = 0;
+		}
 	});
 	
 	// send drawing info
@@ -96,14 +99,13 @@ io.on('connection', (socket) => {
 	
 	// when non-drawer answers right
 	socket.on('correct answer', (data) => {
-		
 		// give score to drawer and correct answerer
 		players.filter(player => {
 			if (player.name == data.name) {
 				player.score += data.score;
 			}
 			if (player.name == data.drawer) {
-				player.score += Math.floor(data.score / 5);
+				player.score += Math.floor(data.score / 3);
 			}
 		});
 		const sendData = [...players, data.name]

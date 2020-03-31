@@ -162,6 +162,25 @@ body {
 	
 }
 
+.in-game .main .game-canvas.hidden {
+	display: none;
+}
+
+.in-game .main .score-board {
+	width: 90%;
+	height: 75%;
+	
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0 1em 3em rgb(0, 0, 0);
+	
+	color: rgba(52, 152, 219,1.0);
+	text-align: center;
+}
+
+.in-game .main .score-board.hidden {
+	display: none;
+}
+
 .in-game .main .draw-controls {
 	width: 90%;
 	height: 10%;
@@ -263,4 +282,47 @@ body {
 	background-color: rgb(223, 230, 233);
 	color: rgb(83, 92, 104);
 }
+
+
+/* score-board */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+	height: 10%;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+th {
+    background-color: rgba(52, 152, 219,1.0);
+    border: 1px solid #dddddd;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+td {
+    border: 1px solid #dddddd;
+    text-align: center;
+    font-size: 2em;
+    height: 10%;
+}
+
+/* restart game button */
+.in-game .main .restart-button {
+	text-align: center;
+}
+
+.in-game .main .restart-button.hidden {
+	display: none;
+}
+	
+
 
