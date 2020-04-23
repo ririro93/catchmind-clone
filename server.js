@@ -113,8 +113,22 @@ io.on('connection', (socket) => {
 	})
 	
 	socket.on('answer submit', (answer_data) => {
-	   console.log(answer_data);
+		console.log(answer_data);
 		io.emit('submitted answer', answer_data);
+	})
+	
+	socket.on('time over', (data) => {
+		const randPlayerNum = Math.floor(Math.random() * players.length);
+		console.log("randPlayerNum: ", randPlayerNum);
+		console.log("time over players: ", players);
+		const drawer = players[randPlayerNum].name; // 여기 이상함
+		
+		players.filter(player => {
+			if (player.name == data[1]) {
+				player.score -= 30;
+			}
+		});
+		io.emit('time over', [players, drawer]);
 	})
 	
 	socket.on('end game', (data) => {

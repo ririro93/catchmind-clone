@@ -153,6 +153,10 @@ body {
 	display: none;
 }
 
+.in-game .main .answer-div.showAnswer {
+	color: red;
+}
+
 .in-game .main .game-canvas {
 	width: 90%;
 	height: 75%;

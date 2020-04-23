@@ -16,7 +16,7 @@ const scoreBoardTable = document.getElementById("scoreBoardTable");
 
 const restartBtn = document.getElementById("restartBtn");
 
-const NUM_ENTRIES = 2;
+const NUM_ENTRIES = 10;
 
 let answer_num;
 
@@ -26,15 +26,11 @@ let received_entries;
 const width = document.body.clientWidth * 0.9;
 const height = document.body.clientHeight * 0.05;
 
-const ROUND_TIME = 60;
+const ROUND_TIME = 90;
 
 let calculatedWidth = 100;
 
 let countdownInterval;
-
-// score system
-let myScoreThisRound = 0;
-
 
 //////////////////////////////////////////////////////////
 init();
@@ -53,7 +49,6 @@ function init() {
 	// socket comm
 	socket.on('game started', async (random_entries) => {
 		answer_num = -1;
-		myScoreThisRound = 0;
 		received_entries = await random_entries;
 		console.log("received_entries: ", received_entries);
 		
@@ -75,6 +70,11 @@ function init() {
 		players = data.slice(0, data.length-1);
 		drawer = data[data.length-1];
 		clearInterval(countdownInterval);
+		barTimer.classList.remove("danger");
+		barTimer.classList.remove("warning");
+		// clear canvas
+		drawClear.click();
+
 		if (answer_num < received_entries.length - 1) {
 			setTimeout(showNextAnswer, 3000);
 		} else {
@@ -106,18 +106,40 @@ function init() {
 		}
 	});
 	
+	// when nobody answers within time limit
+	socket.on('time over', data => {
+		players = data[0];
+		drawer = data[1];
+		
+		console.log("on time over new random drawer: ", drawer);
+		console.log("answer_num: ", answer_num);
+		calculatedWidth = 100;
+		if (answer_num < received_entries.length - 1) {
+			// show answer to non-drawers
+			if (my_name !== drawer) {
+				answerDiv.textContent = `${received_entries[answer_num]}`;
+				answerDiv.classList.add("showAnswer");
+			}
+			setTimeout(showNextAnswer, 3000);
+		} else {
+			socket.emit('end game', players);
+			console.log('game ended');
+			showScores();
+		}
+	});
+	
 	// when game ends (this gets executed too many times)
 	socket.on('game ended', data => {
 		let winner;
-		let highScore = 0;
+		let highScore = -10000;
 		
-		for (let i = 0; i < players.length; i++) {
-			if (players[i].score > highScore) {
-				highScore = players[i].score;
-				winner = players[i].name
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].score > highScore) {
+				highScore = data[i].score;
+				winner = data[i].name
 			}
 		}
-		answerDiv.textContent = `${winner} WINS!`;
+		answerDiv.textContent = `${winner} WINS! with ${highScore}`;
 		
 		// reset timer
 		barTimer.setAttribute("width", `100%`);
@@ -176,8 +198,9 @@ function randomAnswers(entries_list, num_questions) {
 }
 
 function showNextAnswer() {
+	answerDiv.classList.remove("showAnswer");
 	answer_num += 1;
-	console.log("drawer: ", drawer, answer_num);
+	console.log("drawer: ", drawer);
 	console.log("players: ", players);
 	
 	// show drawer in red
@@ -222,17 +245,22 @@ function showNextAnswer() {
 
 function countdown() {
 	calculatedWidth -= 100 / ROUND_TIME;
-	barTimer.setAttribute("width", `${calculatedWidth}%`);
-	
-	if (calculatedWidth < 50) {
-		barTimer.classList.add("warning");
+	if (calculatedWidth >= 50) {
+		barTimer.setAttribute("width", `${calculatedWidth}%`);
 	}
 	
-	if (calculatedWidth < 25) {
+	if (calculatedWidth >= 25 && calculatedWidth < 50) {
+		barTimer.classList.add("warning");
+		barTimer.setAttribute("width", `${calculatedWidth}%`);
+	}
+	
+	if (calculatedWidth >= 0 && calculatedWidth < 25) {
 		barTimer.classList.remove("warning");
 		barTimer.classList.add("danger");
+		barTimer.setAttribute("width", `${calculatedWidth}%`);
 	}
 	if (calculatedWidth < 0) {
+		barTimer.classList.remove("danger");
 		clearInterval(countdownInterval);
 		drawerTimeOver();
 	}
@@ -280,6 +308,11 @@ function showScores() {
 
 function drawerTimeOver() {
 	console.log("time over next drawer up");
+	
+	// show answer -> subtract 10 points from drawer -> next question
+	if (my_name == drawer) {
+		socket.emit('time over', [received_entries[answer_num], drawer]);
+	}
 }
 
 function handleRestartClick(event) {

@@ -13,12 +13,13 @@ It's a game where one player draws something about a given word which then the o
 	  - can choose language(eng, kor) -> this looks hard.. maybe keep 2 individual databases for each lang
 	- ~~add code to move onto next round~~
     - ~~add timer~~
-	  - add event when timer runs out
+	  - ~~add event when timer runs out~~
+	  - ~~show answer to non-drawers~~
 	- ~~popup to show answers players submit~~
 	  - add arrow to popups
-    - add point system
+    - ~~add point system~~
 	  - ~~faster => higher score for answerer and drawer~~
-	  - drawer loses points when no answer within time limit
+	  - ~~drawer loses points when no answer within time limit~~
 	- drawer can skip word
 	- chat system
 	- add collapsable scoreboard popup
@@ -37,6 +38,8 @@ It's a game where one player draws something about a given word which then the o
     - all player names disappear when one logs out 
 	- 8th player's submitted answer is covered by a color button
 	- dupe entries
+	- can't draw over answer popup container
+	- game breaks when drawer leaves the game
 	
 5. Deploy on Heroku
 
