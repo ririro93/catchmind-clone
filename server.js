@@ -10,8 +10,9 @@ const socket = require('socket.io');
 const Datastore = require('nedb');
 
 //// Server init
-const server = app.listen(3000, () => {
-	console.log("listening to port 3000");
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () => {
+	console.log(`listening to port ${port}`);
 });
 const io = socket(server);
 const db = new Datastore('database.db');
