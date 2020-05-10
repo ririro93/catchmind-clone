@@ -1,0 +1,65 @@
+[33mcommit 1b9f9b41652a3b1dd2ad9d474d55f3d1f1ff3f91[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: root <ririro93@gmail.com>
+Date:   Thu Apr 23 01:12:48 2020 +0000
+
+    port from env
+
+[33mcommit fcd73d6999a5ee731a5e0d8de8de3e34703d52a9[m[33m ([m[1;31mheroku/master[m[33m)[m
+Author: root <ririro93@gmail.com>
+Date:   Thu Apr 23 00:56:19 2020 +0000
+
+    2020-04-23 new updates
+
+[33mcommit bac9d6e04d3954f3a633d489adfaffd40bc72643[m
+Author: root <ririro93@gmail.com>
+Date:   Tue Mar 31 07:42:24 2020 +0000
+
+    2020-03-31 added end game, restart
+
+[33mcommit fae0542e4cb73fd9f90fbbbe154af55b5a984758[m
+Author: root <ririro93@gmail.com>
+Date:   Mon Mar 30 15:02:16 2020 +0000
+
+    2020-03-31 added end game
+
+[33mcommit eda99861c446f255c4863cc13890fd6e885d7a74[m
+Author: root <ririro93@gmail.com>
+Date:   Mon Mar 30 13:28:41 2020 +0000
+
+    2020-03-30 added timer
+
+[33mcommit e4f88f8ffb60bca22086af3814e95572330dec49[m
+Author: root <ririro93@gmail.com>
+Date:   Fri Mar 27 22:44:00 2020 +0000
+
+    2020-03-28 inGame answer popup added
+
+[33mcommit 94e4c34905b3f8cb1c9e327125340a868cd4f867[m
+Author: root <ririro93@gmail.com>
+Date:   Thu Mar 26 06:11:32 2020 +0000
+
+    2020-03-26 next round codes update
+
+[33mcommit 658c5a8502de2edcf5caa6024082e46b8817af50[m
+Author: root <ririro93@gmail.com>
+Date:   Tue Mar 24 15:28:45 2020 +0000
+
+    2020-03-25 README edit
+
+[33mcommit 60ca9f8d9499a4c345d9eea6f42eaaf980719368[m
+Author: root <ririro93@gmail.com>
+Date:   Tue Mar 24 15:19:52 2020 +0000
+
+    2020-03-25 edited README
+
+[33mcommit f4cb1ae416743e8a82110d636096bd9d8ce9042f[m
+Author: root <ririro93@gmail.com>
+Date:   Tue Mar 24 15:16:03 2020 +0000
+
+    2020-03-25 new features added
+
+[33mcommit 66500e63da89dc5e4ea519c2f0287fdc96a2a319[m
+Author: root <ririro93@gmail.com>
+Date:   Sat Mar 21 04:52:19 2020 +0000
+
+    2020-03-21 first commit

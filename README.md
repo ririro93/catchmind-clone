@@ -41,7 +41,7 @@ It's a game where one player draws something about a given word which then the o
 	- can't draw over answer popup container
 	- game breaks when drawer leaves the game
 	
-5. Deploy on Heroku
-
+5. ~~Deploy on Heroku~~
+    - go to link below to try game https://mooncatch.herokuapp.com/
 ## #References
 timer: https://css-tricks.com/how-to-create-an-animated-countdown-timer-with-html-css-and-javascript/
